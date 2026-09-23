@@ -1,8 +1,8 @@
 import { useEffect, useState, type PointerEvent } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
 import PillTunnel from './PillTunnel'
+import PixelGrid from './PixelGrid'
 import GlassesModel from './GlassesModel'
-import HeroComputer from './HeroComputer'
 
 type FlowStep = {
   label: string
@@ -266,7 +266,15 @@ function App() {
       </nav>
 
       <main id="main">
-        <HeroComputer />
+        <section className="hero" aria-labelledby="hero-title">
+          <PixelGrid />
+          <div className="container hero-inner">
+            <div className="hero-copy">
+              <h1 id="hero-title">Natan<br /><em>Salvador.</em></h1>
+              <p>Software Engineer</p>
+            </div>
+          </div>
+        </section>
 
         <section className="section story-section container" id="about" aria-labelledby="about-title">
           <div className="story-layout">
