@@ -292,11 +292,6 @@ function App() {
         <section className="section story-section container" id="about" aria-labelledby="about-title">
           <div className="section-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><div><h2 id="about-title">A bit about me.</h2></div></div>
           <div className="story-layout">
-            <div className="story-margin" data-reveal>
-              <div className="story-margin-age"><span>12</span><p>That's when I started coding.</p></div>
-              <span className="story-margin-line"><i /></span>
-              <span className="story-margin-end">I'm still at it.</span>
-            </div>
             <figure className="robot-stage" data-reveal>
               <GlassesIllustration />
             </figure>
@@ -359,19 +354,25 @@ function App() {
             <div className="contact-top">04 / CONTACT</div>
             <div className="contact-content">
               <div className="contact-copy">
-                <h2 id="contact-title">Got an idea?<br /><em>Let's talk.</em></h2>
-                <p>Projects, roles, or a problem worth untangling. Send me a note.</p>
+                <h2 id="contact-title">Questions or ideas?<br /><em>My inbox is open.</em></h2>
+                <p>For projects, opportunities, or just a hello, feel free to reach out.</p>
               </div>
               <div className="contact-actions">
-                <a href={`mailto:${email}`} className="contact-email">
-                  <span className="contact-email-icon"><SectionIcon name="contact" /></span>
-                  <span className="contact-email-text"><strong>Send a message</strong><small>{email}</small></span>
+                <a href={`mailto:${email}`} className="contact-button contact-email">
+                  <span className="contact-button-icon"><SectionIcon name="contact" /></span>
+                  <span className="contact-button-text"><strong>Send an email</strong><small>{email}</small></span>
                   <ArrowIcon />
                 </a>
-                <div className="contact-links" aria-label="Social profiles">
-                  <a className="contact-social" href={github} target="_blank" rel="noopener noreferrer"><SocialIcon name="github" /><span>GitHub</span><ArrowIcon /></a>
-                  <a className="contact-social linkedin" href={linkedin} target="_blank" rel="noopener noreferrer"><SocialIcon name="linkedin" /><span>LinkedIn</span><ArrowIcon /></a>
-                </div>
+                <a className="contact-button contact-social linkedin" href={linkedin} target="_blank" rel="noopener noreferrer">
+                  <span className="contact-button-icon"><SocialIcon name="linkedin" /></span>
+                  <span className="contact-button-text"><strong>LinkedIn</strong><small>Connect professionally</small></span>
+                  <ArrowIcon />
+                </a>
+                <a className="contact-button contact-social github" href={github} target="_blank" rel="noopener noreferrer">
+                  <span className="contact-button-icon"><SocialIcon name="github" /></span>
+                  <span className="contact-button-text"><strong>GitHub</strong><small>Explore my projects</small></span>
+                  <ArrowIcon />
+                </a>
               </div>
             </div>
           </div>
