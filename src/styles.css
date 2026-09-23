@@ -178,14 +178,21 @@ figure { margin: 0; }
 .experience-flow .react-flow__controls-button { border-bottom-color: #456a50; background: #1c3329; fill: #d5f56a; }
 .experience-flow .react-flow__controls-button:hover { background: #2c4c34; }
 .story-section { padding-bottom: 130px; }
-.story-layout { display: grid; grid-template-columns: minmax(360px, .94fr) minmax(0, 1fr); gap: clamp(42px, 6vw, 105px); align-items: center; }
-.story-copy { max-width: 650px; }
-.story-copy .section-index { display: block; padding: 0; margin-bottom: 26px; }
-.story-copy h2 { font-size: clamp(44px, 4.6vw, 64px); line-height: 1.05; letter-spacing: -.072em; font-weight: 600; margin-bottom: 35px; }
+.story-section .section-intro { margin-bottom: 26px; }
+.story-section .section-intro h2 { font-size: clamp(44px, 4.6vw, 64px); }
+.story-layout { display: grid; grid-template-columns: 22% minmax(0, 1fr); gap: 28px; align-items: start; }
+.story-margin { display: flex; flex-direction: column; align-items: flex-start; padding-top: 9px; max-width: 205px; }
+.story-margin-end { color: #91aa92; font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; }
+.story-margin-age { display: flex; align-items: center; gap: 12px; }
+.story-margin-age span { color: var(--accent); font-size: 67px; font-weight: 500; letter-spacing: -.09em; line-height: 1; }
+.story-margin-age p { color: #c9d8c6; font-size: 13px; line-height: 1.35; margin: 0; }
+.story-margin-line { display: block; position: relative; width: 1px; height: 82px; margin: 12px 0 14px 28px; background: #4c6a4d; }
+.story-margin-line i { position: absolute; left: -3px; top: 0; width: 7px; height: 7px; background: var(--accent); box-shadow: 0 0 10px #d5f56a9c; transition: transform .7s cubic-bezier(.2, .7, .25, 1); }
+.story-margin:hover .story-margin-line i { transform: translateY(75px); }
+.story-margin-end { margin-left: 17px; }
+.story-copy { max-width: 760px; }
 .story-copy p { color: #bac9bb; font-size: 17px; line-height: 1.74; margin: 0 0 20px; }
 .story-copy .story-lead { color: var(--ink); font-size: clamp(21px, 2.2vw, 29px); line-height: 1.48; letter-spacing: -.035em; margin-bottom: 25px; }
-.glasses-stage { position: relative; isolation: isolate; min-width: 0; height: min(510px, 44vw); min-height: 400px; overflow: hidden; background: transparent; }
-.glasses-canvas { position: absolute; z-index: 1; inset: 0; display: block; width: 100%; height: 100%; image-rendering: pixelated; filter: drop-shadow(0 20px 26px #0008); }
 .contact-section { background: #1a291f; color: var(--ink); padding: 40px 0 58px; border-top: 1px solid #456045; }
 .contact-top { display: flex; justify-content: space-between; align-items: center; font-size: 10px; letter-spacing: .13em; font-weight: 500; color: var(--accent); }
 .contact-section h2 { font-size: clamp(63px, 9vw, 140px); line-height: .94; letter-spacing: -.09em; font-weight: 600; margin: 95px 0 85px; }
@@ -229,9 +236,7 @@ figure { margin: 0; }
   .experience-content { grid-column: 2; grid-row: 2; }
   .experience-heading { align-items: flex-start; }
   .experience-heading h3 { font-size: 30px; }
-  .story-layout { grid-template-columns: 1fr; gap: 50px; }
-  .story-copy { max-width: 650px; }
-  .glasses-stage { height: 430px; min-height: 0; }
+  .story-layout { grid-template-columns: 30% minmax(0, 1fr); gap: 28px; }
   .footer-top { flex-direction: column; gap: 50px; padding-bottom: 65px; }
   .footer-links { justify-content: space-between; gap: 20px; }
 }
@@ -248,11 +253,13 @@ figure { margin: 0; }
   .hero-copy p { font-size: 12px; letter-spacing: .19em; }
   .section-intro h2 { font-size: clamp(42px, 11vw, 60px); }
   .section-intro p { font-size: 15px; }
-  .story-layout { gap: 34px; }
-  .story-copy h2 { font-size: clamp(42px, 11vw, 60px); margin-bottom: 27px; }
+  .story-layout { grid-template-columns: 1fr; gap: 25px; }
+  .story-margin { max-width: none; padding: 0 0 18px; border-bottom: 1px solid var(--line); }
+  .story-margin-line, .story-margin-end { display: none; }
+  .story-margin-age { margin: 0; }
+  .story-margin-age span { font-size: 49px; }
   .story-copy .story-lead { font-size: 23px; }
   .story-copy p { font-size: 16px; }
-  .glasses-stage { height: 340px; }
   .experience-heading { flex-direction: column; gap: 5px; }
   .experience-heading h3 { font-size: 27px; }
   .experience-summary { font-size: 17px; }
