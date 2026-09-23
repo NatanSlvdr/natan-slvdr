@@ -2,6 +2,7 @@ import { useEffect, useState, type PointerEvent } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
 import PillTunnel from './PillTunnel'
 import PixelGrid from './PixelGrid'
+import GlassesModel from './GlassesModel'
 
 type FlowStep = {
   label: string
@@ -276,14 +277,13 @@ function App() {
         </section>
 
         <section className="section story-section container" id="about" aria-labelledby="about-title">
-          <div className="section-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><div><h2 id="about-title">A bit about me.</h2></div></div>
           <div className="story-layout">
-            <div className="story-margin" data-reveal>
-              <div className="story-margin-age"><span>12</span><p>That's when I started coding.</p></div>
-              <span className="story-margin-line"><i /></span>
-              <span className="story-margin-end">I'm still at it.</span>
-            </div>
+            <figure className="glasses-stage" data-reveal>
+              <GlassesModel />
+            </figure>
             <div className="story-copy" data-reveal>
+              <span className="section-index">01 / ABOUT ME</span>
+              <h2 id="about-title">A bit about me.</h2>
               <p className="story-lead">I started coding when I was 12. I can't point to one big moment that made me choose software engineering; building things was just something I kept doing.</p>
               <p>My work took me through support and systems before backend engineering. It taught me to be patient with problems. I don't give up easily: I like finding the actual cause, trying another route when the first fix fails, and checking that the solution really helps someone.</p>
               <p>I still build things in my own time because I enjoy it. When something works, I start wondering how to make it simpler, faster, or nicer to use.</p>
