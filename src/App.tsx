@@ -1,7 +1,7 @@
 import { useEffect, useState, type PointerEvent } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
 import PillTunnel from './PillTunnel'
-import GlassesModel from './GlassesModel'
+import GlassesIllustration from './GlassesIllustration'
 import HeroComputer from './HeroComputer'
 
 type FlowStep = {
@@ -271,7 +271,7 @@ function App() {
         <section className="section story-section container" id="about" aria-labelledby="about-title">
           <div className="story-layout">
             <figure className="glasses-stage" data-reveal>
-              <GlassesModel />
+              <GlassesIllustration />
             </figure>
             <div className="story-copy" data-reveal>
               <span className="section-index">01 / ABOUT ME</span>
