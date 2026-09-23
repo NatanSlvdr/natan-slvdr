@@ -1,8 +1,9 @@
 import { useEffect, useState, type PointerEvent } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
+import TechnologyStack from './TechnologyStack'
 import PillTunnel from './PillTunnel'
 import GlassesIllustration from './GlassesIllustration'
-import HeroComputer from './HeroComputer'
+import PixelGrid from './PixelGrid'
 
 type FlowStep = {
   label: string
@@ -17,6 +18,7 @@ const sccFlow: FlowStep[] = [
 ]
 
 const github = 'https://github.com/NatanSlvdr'
+const linkedin = 'https://www.linkedin.com/in/natan-salvador'
 const email = 'pro.natansalvador@gmail.com'
 const sections = [
   { id: 'top', label: 'Home' },
@@ -87,6 +89,17 @@ const projects: Project[] = [
 
 function ArrowIcon() {
   return <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19 19 5M7 5h12v12" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" /></svg>
+}
+
+// Brand marks make external profiles recognizable at a glance.
+function SocialIcon({ name }: { name: 'github' | 'linkedin' }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      {name === 'github'
+        ? <path d="M12 .297a12 12 0 0 0-3.793 23.385c.6.111.82-.261.82-.577v-2.234c-3.338.726-4.043-1.416-4.043-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.729.083-.729 1.205.084 1.838 1.237 1.838 1.237 1.07 1.835 2.807 1.304 3.492.997.108-.775.418-1.305.762-1.605-2.665-.303-5.467-1.332-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.323 3.301 1.23A11.52 11.52 0 0 1 12 6.317c1.02.005 2.045.138 3.003.404 2.291-1.553 3.298-1.23 3.298-1.23.655 1.652.243 2.873.12 3.176.77.84 1.235 1.91 1.235 3.221 0 4.61-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.216.694.825.576A12 12 0 0 0 12 .297z" />
+        : <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.35V9h3.414v1.561h.049c.476-.9 1.637-1.85 3.37-1.85 3.602 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 1 1 0-4.124 2.062 2.062 0 0 1 0 4.124zM6.118 20.452H2.555V9h3.563v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />}
+    </svg>
+  )
 }
 
 // Line icons keep the section dock readable at both desktop and phone sizes.
@@ -266,16 +279,28 @@ function App() {
       </nav>
 
       <main id="main">
-        <HeroComputer />
+        <section className="hero" aria-labelledby="hero-title">
+          <PixelGrid />
+          <div className="container hero-inner">
+            <div className="hero-copy">
+              <h1 id="hero-title">Natan<br /><em>Salvador.</em></h1>
+              <p>Software Engineer</p>
+            </div>
+          </div>
+        </section>
 
         <section className="section story-section container" id="about" aria-labelledby="about-title">
+          <div className="section-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><div><h2 id="about-title">A bit about me.</h2></div></div>
           <div className="story-layout">
-            <figure className="glasses-stage" data-reveal>
+            <div className="story-margin" data-reveal>
+              <div className="story-margin-age"><span>12</span><p>That's when I started coding.</p></div>
+              <span className="story-margin-line"><i /></span>
+              <span className="story-margin-end">I'm still at it.</span>
+            </div>
+            <figure className="robot-stage" data-reveal>
               <GlassesIllustration />
             </figure>
             <div className="story-copy" data-reveal>
-              <span className="section-index">01 / ABOUT ME</span>
-              <h2 id="about-title">A bit about me.</h2>
               <p className="story-lead">I started coding when I was 12. I can't point to one big moment that made me choose software engineering; building things was just something I kept doing.</p>
               <p>My work took me through support and systems before backend engineering. It taught me to be patient with problems. I don't give up easily: I like finding the actual cause, trying another route when the first fix fails, and checking that the solution really helps someone.</p>
               <p>I still build things in my own time because I enjoy it. When something works, I start wondering how to make it simpler, faster, or nicer to use.</p>
@@ -292,14 +317,15 @@ function App() {
                 <div className="timeline-rail"><span>01</span></div>
                 <div className="experience-content">
                   <div className="experience-heading"><h3>Backend Engineer <span>/</span> Cyberesist</h3><span>CYBERSECURITY PLATFORM</span></div>
-                  <p className="experience-summary">A platform that turns complex cybersecurity audits into a process analysts can launch, follow, review, and deliver to clients.</p>
-                  <div className="experience-detail">
-                    <div><span>THE PRODUCT</span><p>Cyberesist brings different scanning tools and their results into one audit workflow. Instead of juggling outputs by hand, an analyst sets a scope, starts the work, follows progress, reviews findings, and produces a client-ready report.</p></div>
-                    <div><span>HOW IT WORKS</span><p>Django exposes the workflow and APIs. Huey tasks backed by Redis run scans outside the request path, then normalize mixed tool outputs into findings the analyst can inspect. Results feed PDF, DOCX, and spreadsheet deliverables.</p></div>
-                    <div><span>THE CHALLENGE</span><p>Long-running scans can time out or fail halfway through. I worked on tracking progress and partial failures, making results comparable across tools, and keeping report generation dependable even when an audit does not follow the happy path.</p></div>
+                  <p className="experience-summary">I build the backend of <strong>Cyberesist</strong>, a cybersecurity platform that lets people scan their <strong>websites and servers</strong> for security weaknesses.</p>
+                  <div className="experience-work">
+                    <div className="experience-narrative">
+                      <div className="experience-project"><span>THE PROJECT</span><p>Users add <strong>subdomains or IP addresses</strong> they want to check. The platform finds the open ports and services on their servers, runs the right security tools, and gathers the weaknesses those tools find. Analysts can review everything in one place and create <strong>clear client reports</strong>, including PDFs with LLM-assisted summaries.</p></div>
+                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>An audit can take a long time and involve many tools. Some tools fail; others return results in completely different formats. I used <strong>Huey and Redis</strong> to run scans in the background, show their progress, handle partial failures, and turn the results into findings analysts can review.</p></div>
+                      <TechnologyStack role="cyberesist" />
+                    </div>
+                    <ExperienceDiagram />
                   </div>
-                  <ExperienceDiagram />
-                  <div className="experience-tags"><span>Python / Django</span><span>Huey / Redis</span><span>MariaDB</span><span>Docker</span></div>
                 </div>
               </article>
               <article className="experience-row" data-reveal>
@@ -307,14 +333,15 @@ function App() {
                 <div className="timeline-rail"><span>02</span></div>
                 <div className="experience-content">
                   <div className="experience-heading"><h3>Systems & Network Admin <span>/</span> SCC France</h3><span>OPERATIONS & SUPPORT</span></div>
-                  <p className="experience-summary">Keeping the systems people depend on available, secure, and understandable when something goes wrong.</p>
-                  <div className="experience-detail">
-                    <div><span>THE WORK</span><p>Users needed working devices, accounts, files, applications, and data. I handled advanced support and administration across Windows Server, Active Directory, Microsoft 365, networking services, and SQL Server.</p></div>
-                    <div><span>HOW IT WORKED</span><p>An incident began with a user or service symptom. I traced it across identity, network, application, and data layers, then fixed or restored the affected part and verified that the user's actual workflow worked again.</p></div>
-                    <div><span>THE CHALLENGE</span><p>The visible failure was often far from its cause. Backups, restores, policy changes, and maintenance required careful diagnosis and follow-through so a technical fix also restored the service people needed.</p></div>
+                  <p className="experience-summary">I kept the systems people relied on running and helped when <strong>accounts, apps, devices, or data</strong> stopped working.</p>
+                  <div className="experience-work">
+                    <div className="experience-narrative">
+                      <div className="experience-project"><span>THE ENVIRONMENT</span><p>At SCC, I looked after <strong>Windows servers, user accounts, Microsoft 365, and SQL Server</strong>. The work included access, email, files, backups, restores, Group Policy, DNS and DHCP, WSUS, and remote access.</p></div>
+                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>A problem did not always start where it appeared. I traced issues across accounts, networks, apps, and data, then checked that the <strong>person's full workflow worked again</strong> after the fix.</p></div>
+                      <TechnologyStack role="scc" />
+                    </div>
+                    <FlowDiagram steps={sccFlow} title="SCC incident workflow" compact />
                   </div>
-                  <FlowDiagram steps={sccFlow} title="SCC incident workflow" compact />
-                  <div className="experience-tags"><span>Windows Server</span><span>Active Directory</span><span>Microsoft 365</span><span>SQL Server</span></div>
                 </div>
               </article>
             </div>
@@ -327,10 +354,31 @@ function App() {
           <div className="section-endnote"><span>MORE IN THE WORKS</span><a href={github} target="_blank" rel="noopener noreferrer">Browse all repositories <ArrowIcon /></a></div>
         </section>
 
-        <section className="contact-section" id="contact" aria-labelledby="contact-title"><div className="container contact-inner"><div className="contact-top"><span>04 / SAY HELLO</span><span>GOOD IDEAS START WITH A CONVERSATION</span></div><h2 id="contact-title">Tell me what<br /><em>you're building.</em></h2><div className="contact-bottom"><a href={`mailto:${email}`} className="contact-email">{email}<ArrowIcon /></a><p>I like a good problem, especially one that matters to someone.</p></div></div></section>
+        <section className="contact-section" id="contact" aria-labelledby="contact-title">
+          <div className="container contact-inner">
+            <div className="contact-top">04 / CONTACT</div>
+            <div className="contact-content">
+              <div className="contact-copy">
+                <h2 id="contact-title">Got an idea?<br /><em>Let's talk.</em></h2>
+                <p>Projects, roles, or a problem worth untangling. Send me a note.</p>
+              </div>
+              <div className="contact-actions">
+                <a href={`mailto:${email}`} className="contact-email">
+                  <span className="contact-email-icon"><SectionIcon name="contact" /></span>
+                  <span className="contact-email-text"><strong>Send a message</strong><small>{email}</small></span>
+                  <ArrowIcon />
+                </a>
+                <div className="contact-links" aria-label="Social profiles">
+                  <a className="contact-social" href={github} target="_blank" rel="noopener noreferrer"><SocialIcon name="github" /><span>GitHub</span><ArrowIcon /></a>
+                  <a className="contact-social linkedin" href={linkedin} target="_blank" rel="noopener noreferrer"><SocialIcon name="linkedin" /><span>LinkedIn</span><ArrowIcon /></a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer className="site-footer"><div className="container footer-top"><div className="footer-brand"><span className="brand-symbol">N<span>/</span>S</span><p>Curious by nature. Engineer by practice.</p></div><div className="footer-links"><div><span>EXPLORE</span><a href="#about">About</a><a href="#experience">Experience</a><a href="#apps">Apps</a></div><div><span>CONNECT</span><a href={github} target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href={`mailto:${email}`}>Email ↗</a></div><div><span>CV / DOWNLOAD</span><a href="/cv/natan-salvador-backend-ai.pdf" download>Backend & AI ↗</a><a href="/cv/natan-salvador-backend-python.pdf" download>Python / Django ↗</a><a href="/cv/natan-salvador-it-support.pdf" download>IT Support ↗</a></div></div></div><div className="container footer-bottom"><span>© {new Date().getFullYear()} NATAN SALVADOR</span><span>MADE WITH INTENTION <span className="footer-spark">✳</span></span><a href="#top">BACK TO TOP ↑</a></div></footer>
+      <footer className="site-footer"><div className="container footer-inner"><span>© {new Date().getFullYear()} NATAN SALVADOR</span><a href="#top">BACK TO TOP ↑</a></div></footer>
     </div>
   )
 }
