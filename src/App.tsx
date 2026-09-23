@@ -1,5 +1,6 @@
 import { useEffect, useState, type PointerEvent } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
+import TechnologyStack from './TechnologyStack'
 import PillTunnel from './PillTunnel'
 import PixelGrid from './PixelGrid'
 
@@ -312,14 +313,15 @@ function App() {
                 <div className="timeline-rail"><span>01</span></div>
                 <div className="experience-content">
                   <div className="experience-heading"><h3>Backend Engineer <span>/</span> Cyberesist</h3><span>CYBERSECURITY PLATFORM</span></div>
-                  <p className="experience-summary">A platform that turns complex cybersecurity audits into a process analysts can launch, follow, review, and deliver to clients.</p>
-                  <div className="experience-detail">
-                    <div><span>THE PRODUCT</span><p>Cyberesist brings different scanning tools and their results into one audit workflow. Instead of juggling outputs by hand, an analyst sets a scope, starts the work, follows progress, reviews findings, and produces a client-ready report.</p></div>
-                    <div><span>HOW IT WORKS</span><p>Django exposes the workflow and APIs. Huey tasks backed by Redis run scans outside the request path, then normalize mixed tool outputs into findings the analyst can inspect. Results feed PDF, DOCX, and spreadsheet deliverables.</p></div>
-                    <div><span>THE CHALLENGE</span><p>Long-running scans can time out or fail halfway through. I worked on tracking progress and partial failures, making results comparable across tools, and keeping report generation dependable even when an audit does not follow the happy path.</p></div>
+                  <p className="experience-summary">I build the backend of <strong>Cyberesist</strong>, a cybersecurity platform that lets people scan their <strong>websites and servers</strong> for security weaknesses.</p>
+                  <div className="experience-work">
+                    <div className="experience-narrative">
+                      <div className="experience-project"><span>THE PROJECT</span><p>Users add <strong>subdomains or IP addresses</strong> they want to check. The platform finds the open ports and services on their servers, runs the right security tools, and gathers the weaknesses those tools find. Analysts can review everything in one place and create <strong>clear client reports</strong>, including PDFs with LLM-assisted summaries.</p></div>
+                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>An audit can take a long time and involve many tools. Some tools fail; others return results in completely different formats. I used <strong>Huey and Redis</strong> to run scans in the background, show their progress, handle partial failures, and turn the results into findings analysts can review.</p></div>
+                      <TechnologyStack role="cyberesist" />
+                    </div>
+                    <ExperienceDiagram />
                   </div>
-                  <ExperienceDiagram />
-                  <div className="experience-tags"><span>Python / Django</span><span>Huey / Redis</span><span>MariaDB</span><span>Docker</span></div>
                 </div>
               </article>
               <article className="experience-row" data-reveal>
@@ -327,14 +329,15 @@ function App() {
                 <div className="timeline-rail"><span>02</span></div>
                 <div className="experience-content">
                   <div className="experience-heading"><h3>Systems & Network Admin <span>/</span> SCC France</h3><span>OPERATIONS & SUPPORT</span></div>
-                  <p className="experience-summary">Keeping the systems people depend on available, secure, and understandable when something goes wrong.</p>
-                  <div className="experience-detail">
-                    <div><span>THE WORK</span><p>Users needed working devices, accounts, files, applications, and data. I handled advanced support and administration across Windows Server, Active Directory, Microsoft 365, networking services, and SQL Server.</p></div>
-                    <div><span>HOW IT WORKED</span><p>An incident began with a user or service symptom. I traced it across identity, network, application, and data layers, then fixed or restored the affected part and verified that the user's actual workflow worked again.</p></div>
-                    <div><span>THE CHALLENGE</span><p>The visible failure was often far from its cause. Backups, restores, policy changes, and maintenance required careful diagnosis and follow-through so a technical fix also restored the service people needed.</p></div>
+                  <p className="experience-summary">I kept the systems people relied on running and helped when <strong>accounts, apps, devices, or data</strong> stopped working.</p>
+                  <div className="experience-work">
+                    <div className="experience-narrative">
+                      <div className="experience-project"><span>THE ENVIRONMENT</span><p>At SCC, I looked after <strong>Windows servers, user accounts, Microsoft 365, and SQL Server</strong>. The work included access, email, files, backups, restores, Group Policy, DNS and DHCP, WSUS, and remote access.</p></div>
+                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>A problem did not always start where it appeared. I traced issues across accounts, networks, apps, and data, then checked that the <strong>person's full workflow worked again</strong> after the fix.</p></div>
+                      <TechnologyStack role="scc" />
+                    </div>
+                    <FlowDiagram steps={sccFlow} title="SCC incident workflow" compact />
                   </div>
-                  <FlowDiagram steps={sccFlow} title="SCC incident workflow" compact />
-                  <div className="experience-tags"><span>Windows Server</span><span>Active Directory</span><span>Microsoft 365</span><span>SQL Server</span></div>
                 </div>
               </article>
             </div>
