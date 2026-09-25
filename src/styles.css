@@ -81,6 +81,7 @@ figure { margin: 0; }
 .project-partix { --project-accent: #f26b5b; --project-glow: #dc262647; }
 .project-stageswap { --project-accent: #6ad6ef; --project-glow: #4fb6e040; }
 .project-starshield { --project-accent: #9fb0ff; --project-glow: #6f86ff52; }
+.project-localecho { --project-accent: #c9a6ff; --project-glow: #a77bff47; }
 .project-icon { width: 64px; height: 64px; display: grid; place-items: center; border-radius: 16px; box-shadow: 0 10px 26px #03090873, 0 0 34px var(--project-glow); transition: translate .3s ease, scale .3s ease; }
 .project-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: inherit; }
 .project-row:hover .project-icon { translate: 0 -2px; scale: 1.05; }

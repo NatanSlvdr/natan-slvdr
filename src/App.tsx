@@ -47,7 +47,7 @@ type Project = {
   description: string
   details: string
   tags: string[]
-  art: 'caffeine' | 'partix' | 'stageswap' | 'starshield'
+  art: 'caffeine' | 'partix' | 'stageswap' | 'starshield' | 'localecho'
   icon: string
   links: { label: string; href: string }[]
 }
@@ -100,6 +100,17 @@ const projects: Project[] = [
     art: 'starshield',
     icon: '/assets/starshield-logo.png',
     links: [{ label: 'Explore repository', href: `${github}/starshield-v2` }],
+  },
+  {
+    number: '05',
+    name: 'Local-Echo',
+    category: 'macOS app',
+    description: 'Private voice dictation for the Mac: hold a key, speak, and your words appear at the cursor.',
+    details: 'Speech recognition runs on the Mac with whisper.cpp and MLX, then a small local model cleans up punctuation, formatting, and obvious recognition errors. No audio or text ever leaves the machine.',
+    tags: ['Swift', 'whisper.cpp', 'MLX'],
+    art: 'localecho',
+    icon: '/assets/local-echo-icon.svg',
+    links: [{ label: 'Explore repository', href: `${github}/local-echo` }],
   },
 ]
 
