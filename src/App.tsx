@@ -1,20 +1,31 @@
-import { useEffect, useState, type PointerEvent } from 'react'
+import { useEffect, useState } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
 import TechnologyStack from './TechnologyStack'
 import PillTunnel from './PillTunnel'
 import GlassesIllustration from './GlassesIllustration'
 import PixelGrid from './PixelGrid'
 
-type FlowStep = {
-  label: string
-  detail: string
-}
+const aboutFacts = [
+  { label: 'Born in', value: 'France, Spanish roots' },
+  { label: 'Speaks', value: 'French, English, Spanish' },
+  { label: 'Trained in', value: 'Systems & networks' },
+]
 
-const sccFlow: FlowStep[] = [
-  { label: 'Incident', detail: 'A user or service is blocked.' },
-  { label: 'Trace cause', detail: 'Check identity, network, app, data.' },
-  { label: 'Intervene', detail: 'Fix, restore, or maintain.' },
-  { label: 'Verify', detail: 'Confirm the service works again.' },
+type WorkItem = { title: string; detail: string }
+
+const cyberesistWork: WorkItem[] = [
+  { title: 'Scan orchestration', detail: 'Audits are split into background tasks with Huey and Redis. Each task tracks its dependencies, progress, and timeout, so one failing tool does not stop the whole audit.' },
+  { title: 'Tool integration', detail: 'I integrate external security tools and normalize their JSON, XML, plain-text, and proprietary outputs into one consistent findings format.' },
+  { title: 'Client API', detail: 'Secure APIs built with Django Ninja give clients direct access to their audits, results, and reports.' },
+  { title: 'Automated reports', detail: 'PDF, DOCX, and XLSX deliverables are generated automatically, with LLM-assisted summaries, instead of being assembled by hand.' },
+  { title: 'Modular architecture', detail: 'A modular Django and Python codebase that I designed and have kept evolving since 2023.' },
+  { title: 'Deployment & operations', detail: 'I deploy and run the platform on Linux with Docker Compose, Gunicorn, and MariaDB/MySQL, and keep its services healthy in production.' },
+]
+
+const sccWork: WorkItem[] = [
+  { title: 'Windows Server', detail: 'Active Directory, Group Policy, DNS and DHCP, file servers and access rights, remote access, WSUS updates, and application services.' },
+  { title: 'Level-3 support', detail: 'Diagnosing and fixing escalated incidents on workstations and servers, user accounts and access, Microsoft 365 and Exchange, and business apps.' },
+  { title: 'SQL Server', detail: 'Backups and restores, instance maintenance, planned updates and restarts, then checking that the applications behind them still worked.' },
 ]
 
 const github = 'https://github.com/NatanSlvdr'
@@ -37,6 +48,7 @@ type Project = {
   details: string
   tags: string[]
   art: 'caffeine' | 'partix' | 'stageswap' | 'starshield'
+  icon: string
   links: { label: string; href: string }[]
 }
 
@@ -46,30 +58,33 @@ const projects: Project[] = [
     number: '01',
     name: 'Caffeine Protocol',
     category: 'Interactive game',
-    description: 'Learn programming by running a very busy robot café.',
-    details: 'Players program three robots, run a simulated café shift, inspect failed orders, and revise. Deterministic scenarios check that a solution works beyond one lucky run.',
+    description: 'A browser game that teaches programming through a busy robot café.',
+    details: 'Over 32 shifts, you program three café robots with instruction blocks such as IF, loops, and functions, then run the service and watch every order play out. Each solution is checked against several scenarios, so it has to work every time, not just once.',
     tags: ['React', 'TypeScript', 'Three.js'],
     art: 'caffeine',
+    icon: '/assets/caffeine-icon.png',
     links: [{ label: 'Explore repository', href: `${github}/Caffeine-Protocol` }],
   },
   {
     number: '02',
     name: 'Partix',
     category: 'Realtime platform',
-    description: 'A private space for playing board games together, wherever you are.',
-    details: 'A host opens a room, friends join on their phones, and the game moves through its phases in real time. Each command is validated against the shared state before players receive their own private view.',
+    description: 'Board games with friends, each person playing from their own phone.',
+    details: 'A host opens a private room and friends join from their phones. The first game is Werewolf: a narrator guides the game through its phases in real time, while the server enforces the rules and gives each player a private view, so nobody sees a role they shouldn\'t.',
     tags: ['React', 'TypeScript', 'Convex'],
     art: 'partix',
+    icon: '/assets/partix-icon.svg',
     links: [{ label: 'Ask for a walkthrough', href: `mailto:${email}?subject=Partix%20walkthrough` }],
   },
   {
     number: '03',
     name: 'StageSwap',
     category: 'Windows utility',
-    description: 'One virtual camera that knows when to show you or your presentation.',
-    details: 'It captures a webcam and display, compares the screen with a reference image, and switches a single virtual camera output after a short debounce. Everything stays on the computer.',
+    description: 'A Zoom camera that switches between your webcam and your presentation on its own.',
+    details: 'StageSwap watches the screen used for presentations and compares it with a reference picture. When media starts, Zoom receives the screen; when it stops, the webcam comes back with a smooth transition. It runs entirely on the Windows computer.',
     tags: ['Rust', 'Windows', 'Video'],
     art: 'stageswap',
+    icon: '/assets/stageswap-icon.png',
     links: [
       { label: 'Download app', href: `${github}/StageSwap/releases/latest` },
       { label: 'Source code', href: `${github}/StageSwap` },
@@ -79,10 +94,11 @@ const projects: Project[] = [
     number: '04',
     name: 'Star Shield',
     category: 'SaaS product',
-    description: 'A calmer way for businesses to understand and manage their reputation.',
-    details: 'Teams connect Google Business Profile locations, invite feedback through QR journeys, and follow reviews and trends by site from one dashboard.',
+    description: 'A dashboard that helps businesses understand and manage their online reviews.',
+    details: 'Teams connect their Google Business Profile locations, collect customer feedback through QR codes, and follow reviews and trends for each site from one place.',
     tags: ['Next.js', 'Convex', 'Clerk'],
     art: 'starshield',
+    icon: '/assets/starshield-logo.png',
     links: [{ label: 'Explore repository', href: `${github}/starshield-v2` }],
   },
 ]
@@ -115,77 +131,17 @@ function SectionIcon({ name }: { name: SectionId }) {
   )
 }
 
-function ProjectArt({ kind }: { kind: Project['art'] }) {
-  if (kind === 'caffeine') {
-    return (
-      <div className="project-art art-caffeine" aria-hidden="true">
-        <div className="art-topline"><span>CAFFEINE_PROTOCOL.EXE</span><span>SHIFT 07 / 32</span></div>
-        <div className="caffeine-scene">
-          <span className="scene-grid" />
-          <span className="caffeine-halo" />
-          <img src="/assets/caffeine-icon.png" alt="" loading="lazy" />
-          <span className="scene-pill">SERVICE RUNNING <i /></span>
-        </div>
-        <div className="art-bottomline"><span>IF ORDER == COFFEE</span><span>THEN BREW →</span></div>
-      </div>
-    )
-  }
-
-  if (kind === 'partix') {
-    return (
-      <div className="project-art art-partix" aria-hidden="true">
-        <img src="/assets/partix-og.jpg" alt="" loading="lazy" />
-        <span className="art-corner-label">PARTIX / GAME 01</span>
-        <span className="partix-mark">LIVE SESSION <i /></span>
-      </div>
-    )
-  }
-
-  if (kind === 'stageswap') {
-    return (
-      <div className="project-art art-stageswap" aria-hidden="true">
-        <div className="signal signal-a" /><div className="signal signal-b" /><div className="signal signal-c" />
-        <span className="art-corner-label">INPUT 01 / WEBCAM</span>
-        <img src="/assets/stageswap-icon.png" alt="" loading="lazy" />
-        <span className="stageswap-output">OUTPUT / READY <i /></span>
-      </div>
-    )
-  }
-
+function ProjectRow({ project }: { project: Project }) {
   return (
-    <div className="project-art art-starshield" aria-hidden="true">
-      <div className="starshield-orbit orbit-one" /><div className="starshield-orbit orbit-two" />
-      <span className="art-corner-label">REPUTATION / SIGNAL</span>
-      <div className="starshield-emblem"><img src="/assets/starshield-logo.png" alt="" loading="lazy" /></div>
-      <span className="starshield-caption">LISTEN · LEARN · RESPOND</span>
-    </div>
-  )
-}
-
-function tiltCard(event: PointerEvent<HTMLElement>) {
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-  const bounds = event.currentTarget.getBoundingClientRect()
-  const x = (event.clientX - bounds.left) / bounds.width - 0.5
-  const y = (event.clientY - bounds.top) / bounds.height - 0.5
-  event.currentTarget.style.setProperty('--card-x', `${-y * 14}deg`)
-  event.currentTarget.style.setProperty('--card-y', `${x * 14}deg`)
-}
-
-function resetCard(event: PointerEvent<HTMLElement>) {
-  event.currentTarget.style.setProperty('--card-x', '0deg')
-  event.currentTarget.style.setProperty('--card-y', '0deg')
-}
-
-function ProjectCard({ project }: { project: Project }) {
-  return (
-    <article className={`project-card project-${project.art}`} onPointerMove={tiltCard} onPointerLeave={resetCard} data-reveal>
-      <ProjectArt kind={project.art} />
-      <div className="project-body">
-        <div className="project-meta"><span>{project.number} / {project.category}</span><span className="project-cross">✳</span></div>
-        <h3>{project.name}</h3>
+    <li className={`project-row project-${project.art}`} data-reveal>
+      <span className="project-icon"><img src={project.icon} alt="" loading="lazy" /></span>
+      <div className="project-main">
+        <div className="project-heading"><h3>{project.name}</h3><span className="project-category">{project.number} · {project.category}</span></div>
         <p className="project-lead">{project.description}</p>
         <p className="project-details">{project.details}</p>
-        <div className="project-tags" aria-label="Technologies">{project.tags.map(tag => <span key={tag}>{tag}</span>)}</div>
+      </div>
+      <div className="project-side">
+        <ul className="project-tags" aria-label="Technologies">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
         <div className="project-links">
           {project.links.map(link => (
             <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined} key={link.label}>
@@ -194,24 +150,20 @@ function ProjectCard({ project }: { project: Project }) {
           ))}
         </div>
       </div>
-    </article>
+    </li>
   )
 }
 
-function FlowDiagram({ steps, title, compact = false }: { steps: FlowStep[]; title: string; compact?: boolean }) {
+function WorkList({ label, items }: { label: string; items: WorkItem[] }) {
   return (
-    <figure className={compact ? 'flow-diagram is-compact' : 'flow-diagram'} onPointerMove={tiltCard} onPointerLeave={resetCard}>
-      <figcaption><span>FLOW / {title}</span><span>SIMPLIFIED VIEW</span></figcaption>
-      <ol className="flow-rail" style={{ gridTemplateColumns: `repeat(${steps.length}, minmax(0, 1fr))` }}>
-        {steps.map((step, index) => (
-          <li className="flow-step" key={step.label}>
-            <span className="flow-number">{String(index + 1).padStart(2, '0')}</span>
-            <strong>{step.label}</strong>
-            <small>{step.detail}</small>
-          </li>
+    <div className="experience-built">
+      <span className="experience-label">{label}</span>
+      <ul>
+        {items.map((item, index) => (
+          <li key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.title}</strong><p>{item.detail}</p></li>
         ))}
-      </ol>
-    </figure>
+      </ul>
+    </div>
   )
 }
 
@@ -290,15 +242,18 @@ function App() {
         </section>
 
         <section className="section story-section container" id="about" aria-labelledby="about-title">
-          <div className="section-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><div><h2 id="about-title">A bit about me.</h2></div></div>
           <div className="story-layout">
             <figure className="robot-stage" data-reveal>
               <GlassesIllustration />
             </figure>
+            <div className="section-intro story-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><h2 id="about-title">I build what I need.<br /><span>Then I make it better.</span></h2></div>
             <div className="story-copy" data-reveal>
-              <p className="story-lead">I started coding when I was 12. I can't point to one big moment that made me choose software engineering; building things was just something I kept doing.</p>
-              <p>My work took me through support and systems before backend engineering. It taught me to be patient with problems. I don't give up easily: I like finding the actual cause, trying another route when the first fix fails, and checking that the solution really helps someone.</p>
-              <p>I still build things in my own time because I enjoy it. When something works, I start wondering how to make it simpler, faster, or nicer to use.</p>
+              <p className="story-lead">I started coding at 12, making small websites for problems I ran into. When video converters failed or hid larger files behind a paywall, I made my own.</p>
+              <p>That habit led me to systems and support at SCC France, then to backend engineering at Cyberesist. Along the way I learned to be patient with problems: find the real cause, try another route when the first fix fails, and check that the result actually helps someone.</p>
+              <p>I still build things in my own time. Once something works, I start wondering how to make it simpler, faster, or nicer to use.</p>
+              <dl className="story-facts">
+                {aboutFacts.map(fact => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+              </dl>
             </div>
           </div>
         </section>
@@ -307,36 +262,33 @@ function App() {
           <div className="container experience-inner">
             <div className="section-intro experience-intro" data-reveal><span className="section-index">02 / EXPERIENCE</span><div><h2 id="experience-title">The work<br /><span>behind the work.</span></h2><p>From keeping critical systems running to building the software behind a cybersecurity platform, I care about how a product behaves in real use.</p></div></div>
             <div className="experience-list">
-              <article className="experience-row" data-reveal>
+              <article className="experience-row is-current" data-reveal>
                 <div className="experience-date">2023 — NOW <span>FREELANCE</span></div>
                 <div className="timeline-rail"><span>01</span></div>
                 <div className="experience-content">
-                  <div className="experience-heading"><h3>Backend Engineer <span>/</span> Cyberesist</h3><span>CYBERSECURITY PLATFORM</span></div>
-                  <p className="experience-summary">I build the backend of <strong>Cyberesist</strong>, a cybersecurity platform that lets people scan their <strong>websites and servers</strong> for security weaknesses.</p>
-                  <div className="experience-work">
-                    <div className="experience-narrative">
-                      <div className="experience-project"><span>THE PROJECT</span><p>Users add <strong>subdomains or IP addresses</strong> they want to check. The platform finds the open ports and services on their servers, runs the right security tools, and gathers the weaknesses those tools find. Analysts can review everything in one place and create <strong>clear client reports</strong>, including PDFs with LLM-assisted summaries.</p></div>
-                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>An audit can take a long time and involve many tools. Some tools fail; others return results in completely different formats. I used <strong>Huey and Redis</strong> to run scans in the background, show their progress, handle partial failures, and turn the results into findings analysts can review.</p></div>
-                      <TechnologyStack role="cyberesist" />
-                    </div>
-                    <ExperienceDiagram />
+                  <div className="experience-heading"><h3>Backend Engineer <span>/</span> Cyberesist</h3><span>CYBERSECURITY SAAS</span></div>
+                  <p className="experience-summary">I design and build the backend of <strong>Cyberesist</strong>, a SaaS platform where security teams launch <strong>internal and external audits</strong>, follow them while they run, and deliver the results to their clients.</p>
+                  <div className="experience-story">
+                    <div className="experience-project"><span>THE PROJECT</span><p>An audit starts from a scope: the <strong>subdomains and IP addresses</strong> a client wants checked. The platform discovers the servers, open ports, and services behind them, then runs the right security tools against each one. Every tool reports in its own way, so the results are brought together as one list of findings that analysts review before a <strong>client report</strong> is produced.</p></div>
+                    <div className="experience-project"><span>THE HARD PART</span><p>Audits are long and unpredictable. One audit can run many tools for a long time; some time out or fail halfway, and others depend on results that are not ready yet. The backend has to keep going anyway: track the progress of every step, record what failed, and still give analysts <strong>usable findings and a report</strong>.</p></div>
                   </div>
+                  <ExperienceDiagram />
+                  <WorkList label="WHAT I BUILT" items={cyberesistWork} />
+                  <TechnologyStack role="cyberesist" />
                 </div>
               </article>
               <article className="experience-row" data-reveal>
-                <div className="experience-date">2021 — 2023 <span>INFRASTRUCTURE</span></div>
+                <div className="experience-date">2021 — 2023 <span>APPRENTICESHIP</span></div>
                 <div className="timeline-rail"><span>02</span></div>
                 <div className="experience-content">
-                  <div className="experience-heading"><h3>Systems & Network Admin <span>/</span> SCC France</h3><span>OPERATIONS & SUPPORT</span></div>
-                  <p className="experience-summary">I kept the systems people relied on running and helped when <strong>accounts, apps, devices, or data</strong> stopped working.</p>
-                  <div className="experience-work">
-                    <div className="experience-narrative">
-                      <div className="experience-project"><span>THE ENVIRONMENT</span><p>At SCC, I looked after <strong>Windows servers, user accounts, Microsoft 365, and SQL Server</strong>. The work included access, email, files, backups, restores, Group Policy, DNS and DHCP, WSUS, and remote access.</p></div>
-                      <div className="experience-project"><span>THE DIFFICULTIES</span><p>A problem did not always start where it appeared. I traced issues across accounts, networks, apps, and data, then checked that the <strong>person's full workflow worked again</strong> after the fix.</p></div>
-                      <TechnologyStack role="scc" />
-                    </div>
-                    <FlowDiagram steps={sccFlow} title="SCC incident workflow" compact />
+                  <div className="experience-heading"><h3>Systems & Network Admin <span>/</span> SCC France</h3><span>INFRASTRUCTURE & DBA</span></div>
+                  <p className="experience-summary">During my apprenticeship, I looked after the <strong>Windows servers, accounts, and databases</strong> people relied on every day, and handled the support cases that needed deeper investigation.</p>
+                  <div className="experience-story">
+                    <div className="experience-project"><span>THE ROLE</span><p>I joined SCC France while studying for my BTS in systems and networks, working as a <strong>system and network administrator and DBA</strong>. My work covered Windows Server administration, level-3 support for workstations, servers, Microsoft 365, and business applications, and the maintenance of SQL Server instances.</p></div>
+                    <div className="experience-project"><span>THE HARD PART</span><p>The visible problem was often far from its cause. A user who could not open an app might have a permission, network, or database issue behind it. I learned to trace issues across each layer, plan updates and restarts carefully, and check that the <strong>application itself worked again</strong> after an intervention, not just the server.</p></div>
                   </div>
+                  <WorkList label="WHAT I LOOKED AFTER" items={sccWork} />
+                  <TechnologyStack role="scc" />
                 </div>
               </article>
             </div>
@@ -345,7 +297,7 @@ function App() {
 
         <section className="section apps-section container" id="apps" aria-labelledby="apps-title">
           <div className="section-intro" data-reveal><span className="section-index">03 / THINGS I'VE MADE</span><div><h2 id="apps-title">A little practical.<br /><span>A little playful.</span></h2><p>My projects move between tools that solve specific problems and ideas I wanted to explore. Each one taught me something different.</p></div></div>
-          <div className="project-grid">{projects.map(project => <ProjectCard key={project.name} project={project} />)}</div>
+          <ol className="project-list">{projects.map(project => <ProjectRow key={project.name} project={project} />)}</ol>
           <div className="section-endnote"><span>MORE IN THE WORKS</span><a href={github} target="_blank" rel="noopener noreferrer">Browse all repositories <ArrowIcon /></a></div>
         </section>
 
