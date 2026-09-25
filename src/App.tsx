@@ -1,9 +1,11 @@
+import { useLanguage } from './LanguageProvider'
 import { useEffect, useState } from 'react'
 import ExperienceDiagram from './ExperienceDiagram'
 import TechnologyStack from './TechnologyStack'
 import PillTunnel from './PillTunnel'
 import GlassesIllustration from './GlassesIllustration'
 import PixelGrid from './PixelGrid'
+import LanguageSelector from './LanguageSelector'
 
 const aboutFacts = [
   { label: 'Born in', value: 'France, Spanish roots' },
@@ -143,20 +145,21 @@ function SectionIcon({ name }: { name: SectionId }) {
 }
 
 function ProjectRow({ project }: { project: Project }) {
+  const { t } = useLanguage()
   return (
     <li className={`project-row project-${project.art}`} data-reveal>
       <span className="project-icon"><img src={project.icon} alt="" loading="lazy" /></span>
       <div className="project-main">
-        <div className="project-heading"><h3>{project.name}</h3><span className="project-category">{project.number} · {project.category}</span></div>
-        <p className="project-lead">{project.description}</p>
-        <p className="project-details">{project.details}</p>
+        <div className="project-heading"><h3>{project.name}</h3><span className="project-category">{project.number} · {t(project.category)}</span></div>
+        <p className="project-lead">{t(project.description)}</p>
+        <p className="project-details">{t(project.details)}</p>
       </div>
       <div className="project-side">
-        <ul className="project-tags" aria-label="Technologies">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+        <ul className="project-tags" aria-label={t("Technologies")}>{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
         <div className="project-links">
           {project.links.map(link => (
             <a href={link.href} target={link.href.startsWith('http') ? '_blank' : undefined} rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined} key={link.label}>
-              {link.label}<ArrowIcon />
+              {t(link.label)}<ArrowIcon />
             </a>
           ))}
         </div>
@@ -166,12 +169,13 @@ function ProjectRow({ project }: { project: Project }) {
 }
 
 function WorkList({ label, items }: { label: string; items: WorkItem[] }) {
+  const { t } = useLanguage()
   return (
     <div className="experience-built">
       <span className="experience-label">{label}</span>
       <ul>
         {items.map((item, index) => (
-          <li key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><strong>{item.title}</strong><p>{item.detail}</p></li>
+          <li key={item.title}><span>{String(index + 1).padStart(2, '0')}</span><strong>{t(item.title)}</strong><p>{t(item.detail)}</p></li>
         ))}
       </ul>
     </div>
@@ -179,6 +183,7 @@ function WorkList({ label, items }: { label: string; items: WorkItem[] }) {
 }
 
 function App() {
+  const { t } = useLanguage()
   const [hasScrolled, setHasScrolled] = useState(false)
   const [activeSection, setActiveSection] = useState<SectionId>('top')
 
@@ -221,24 +226,25 @@ function App() {
 
   return (
     <div className="site-shell" id="top">
-      <a className="skip-link" href="#main">Skip to content</a>
-      <nav className={`bottom-nav ${hasScrolled ? 'is-expanded' : 'is-compact'}`} aria-label="Section navigation">
+      <a className="skip-link" href="#main">{t("Skip to content")}</a>
+      <nav className={`bottom-nav ${hasScrolled ? 'is-expanded' : 'is-compact'}`} aria-label={t("Section navigation")}>
         <PillTunnel />
         {hasScrolled ? (
           <div className="bottom-nav-menu">
             {sections.map(section => (
-              <a href={`#${section.id}`} key={section.id} aria-label={section.id === 'top' ? 'Back to top' : undefined} aria-current={activeSection === section.id ? 'location' : undefined}>
+              <a href={`#${section.id}`} key={section.id} aria-label={section.id === 'top' ? t('Back to top') : undefined} aria-current={activeSection === section.id ? 'location' : undefined}>
                 <SectionIcon name={section.id} />
-                <span className="nav-label">{section.label}</span>
+                <span className="nav-label">{t(section.label)}</span>
               </a>
             ))}
           </div>
         ) : (
-          <a className="scroll-prompt" href="#about" aria-label="Scroll to About me">
-            <span className="scroll-prompt-copy">SCROLL</span>
+          <a className="scroll-prompt" href="#about" aria-label={t("Scroll to About me")}>
+            <span className="scroll-prompt-copy">{t("SCROLL")}</span>
             <span className="scroll-prompt-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 4v15m-6-6 6 6 6-6" /></svg></span>
           </a>
         )}
+        <LanguageSelector />
       </nav>
 
       <main id="main">
@@ -247,7 +253,7 @@ function App() {
           <div className="container hero-inner">
             <div className="hero-copy">
               <h1 id="hero-title">Natan<br /><em>Salvador.</em></h1>
-              <p>Software Engineer</p>
+              <p>{t("Software Engineer")}</p>
             </div>
           </div>
         </section>
@@ -257,13 +263,13 @@ function App() {
             <figure className="robot-stage" data-reveal>
               <GlassesIllustration />
             </figure>
-            <div className="section-intro story-intro" data-reveal><span className="section-index">01 / ABOUT ME</span><h2 id="about-title">I build what I need.<br /><span>Then I make it better.</span></h2></div>
+            <div className="section-intro story-intro" data-reveal><span className="section-index">{t("01 / ABOUT ME")}</span><h2 id="about-title">{t("I build what I need.")}<br /><span>{t("Then I make it better.")}</span></h2></div>
             <div className="story-copy" data-reveal>
-              <p className="story-lead">I started coding at 12, making small websites for problems I ran into. When video converters failed or hid larger files behind a paywall, I made my own.</p>
-              <p>That habit led me to systems and support at SCC France, then to backend engineering at Cyberesist. Along the way I learned to be patient with problems: find the real cause, try another route when the first fix fails, and check that the result actually helps someone.</p>
-              <p>I still build things in my own time. Once something works, I start wondering how to make it simpler, faster, or nicer to use.</p>
+              <p className="story-lead">{t("I started coding at 12, making small websites for problems I ran into. When video converters failed or hid larger files behind a paywall, I made my own.")}</p>
+              <p>{t("That habit led me to systems and support at SCC France, then to backend engineering at Cyberesist. Along the way I learned to be patient with problems: find the real cause, try another route when the first fix fails, and check that the result actually helps someone.")}</p>
+              <p>{t("I still build things in my own time. Once something works, I start wondering how to make it simpler, faster, or nicer to use.")}</p>
               <dl className="story-facts">
-                {aboutFacts.map(fact => <div key={fact.label}><dt>{fact.label}</dt><dd>{fact.value}</dd></div>)}
+                {aboutFacts.map(fact => <div key={fact.label}><dt>{t(fact.label)}</dt><dd>{t(fact.value)}</dd></div>)}
               </dl>
             </div>
           </div>
@@ -271,34 +277,34 @@ function App() {
 
         <section className="experience-section" id="experience" aria-labelledby="experience-title">
           <div className="container experience-inner">
-            <div className="section-intro experience-intro" data-reveal><span className="section-index">02 / EXPERIENCE</span><div><h2 id="experience-title">The work<br /><span>behind the work.</span></h2><p>From keeping critical systems running to building the software behind a cybersecurity platform, I care about how a product behaves in real use.</p></div></div>
+            <div className="section-intro experience-intro" data-reveal><span className="section-index">{t("02 / EXPERIENCE")}</span><div><h2 id="experience-title">{t("The work")}<br /><span>{t("behind the work.")}</span></h2><p>{t("From keeping critical systems running to building the software behind a cybersecurity platform, I care about how a product behaves in real use.")}</p></div></div>
             <div className="experience-list">
               <article className="experience-row is-current" data-reveal>
-                <div className="experience-date">2023 — NOW <span>FREELANCE</span></div>
+                <div className="experience-date">{t("2023 — NOW")} <span>{t("FREELANCE")}</span></div>
                 <div className="timeline-rail"><span>01</span></div>
                 <div className="experience-content">
-                  <div className="experience-heading"><h3>Backend Engineer <span>/</span> Cyberesist</h3><span>CYBERSECURITY SAAS</span></div>
-                  <p className="experience-summary">I design and build the backend of <strong>Cyberesist</strong>, a SaaS platform where security teams launch <strong>internal and external audits</strong>, follow them while they run, and deliver the results to their clients.</p>
+                  <div className="experience-heading"><h3>{t("Backend Engineer")} <span>/</span> Cyberesist</h3><span>{t("CYBERSECURITY SAAS")}</span></div>
+                  <p className="experience-summary">{t("I design and build the backend of")} <strong>Cyberesist</strong>{t(", a SaaS platform where security teams launch")} <strong>{t("internal and external audits")}</strong>{t(", follow them while they run, and deliver the results to their clients.")}</p>
                   <div className="experience-story">
-                    <div className="experience-project"><span>THE PROJECT</span><p>An audit starts from a scope: the <strong>subdomains and IP addresses</strong> a client wants checked. The platform discovers the servers, open ports, and services behind them, then runs the right security tools against each one. Every tool reports in its own way, so the results are brought together as one list of findings that analysts review before a <strong>client report</strong> is produced.</p></div>
-                    <div className="experience-project"><span>THE HARD PART</span><p>Audits are long and unpredictable. One audit can run many tools for a long time; some time out or fail halfway, and others depend on results that are not ready yet. The backend has to keep going anyway: track the progress of every step, record what failed, and still give analysts <strong>usable findings and a report</strong>.</p></div>
+                    <div className="experience-project"><span>{t("THE PROJECT")}</span><p>{t("An audit starts from a scope: the")} <strong>{t("subdomains and IP addresses")}</strong> {t("a client wants checked. The platform discovers the servers, open ports, and services behind them, then runs the right security tools against each one. Every tool reports in its own way, so the results are brought together as one list of findings that analysts review before a")} <strong>{t("client report")}</strong> {t("is produced.")}</p></div>
+                    <div className="experience-project"><span>{t("THE HARD PART")}</span><p>{t("Audits are long and unpredictable. One audit can run many tools for a long time; some time out or fail halfway, and others depend on results that are not ready yet. The backend has to keep going anyway: track the progress of every step, record what failed, and still give analysts")} <strong>{t("usable findings and a report")}</strong>.</p></div>
                   </div>
                   <ExperienceDiagram />
-                  <WorkList label="WHAT I BUILT" items={cyberesistWork} />
+                  <WorkList label={t("WHAT I BUILT")} items={cyberesistWork} />
                   <TechnologyStack role="cyberesist" />
                 </div>
               </article>
               <article className="experience-row" data-reveal>
-                <div className="experience-date">2021 — 2023 <span>APPRENTICESHIP</span></div>
+                <div className="experience-date">2021 — 2023 <span>{t("APPRENTICESHIP")}</span></div>
                 <div className="timeline-rail"><span>02</span></div>
                 <div className="experience-content">
-                  <div className="experience-heading"><h3>Systems & Network Admin <span>/</span> SCC France</h3><span>INFRASTRUCTURE & DBA</span></div>
-                  <p className="experience-summary">During my apprenticeship, I looked after the <strong>Windows servers, accounts, and databases</strong> people relied on every day, and handled the support cases that needed deeper investigation.</p>
+                  <div className="experience-heading"><h3>{t("Systems & Network Admin")} <span>/</span> SCC France</h3><span>{t("INFRASTRUCTURE & DBA")}</span></div>
+                  <p className="experience-summary">{t("During my apprenticeship, I looked after the")} <strong>{t("Windows servers, accounts, and databases")}</strong> {t("people relied on every day, and handled the support cases that needed deeper investigation.")}</p>
                   <div className="experience-story">
-                    <div className="experience-project"><span>THE ROLE</span><p>I joined SCC France while studying for my BTS in systems and networks, working as a <strong>system and network administrator and DBA</strong>. My work covered Windows Server administration, level-3 support for workstations, servers, Microsoft 365, and business applications, and the maintenance of SQL Server instances.</p></div>
-                    <div className="experience-project"><span>THE HARD PART</span><p>The visible problem was often far from its cause. A user who could not open an app might have a permission, network, or database issue behind it. I learned to trace issues across each layer, plan updates and restarts carefully, and check that the <strong>application itself worked again</strong> after an intervention, not just the server.</p></div>
+                    <div className="experience-project"><span>{t("THE ROLE")}</span><p>{t("I joined SCC France while studying for my BTS in systems and networks, working as a")} <strong>{t("system and network administrator and DBA")}</strong>{t(". My work covered Windows Server administration, level-3 support for workstations, servers, Microsoft 365, and business applications, and the maintenance of SQL Server instances.")}</p></div>
+                    <div className="experience-project"><span>{t("THE HARD PART")}</span><p>{t("The visible problem was often far from its cause. A user who could not open an app might have a permission, network, or database issue behind it. I learned to trace issues across each layer, plan updates and restarts carefully, and check that the")} <strong>{t("application itself worked again")}</strong> {t("after an intervention, not just the server.")}</p></div>
                   </div>
-                  <WorkList label="WHAT I LOOKED AFTER" items={sccWork} />
+                  <WorkList label={t("WHAT I LOOKED AFTER")} items={sccWork} />
                   <TechnologyStack role="scc" />
                 </div>
               </article>
@@ -307,33 +313,33 @@ function App() {
         </section>
 
         <section className="section apps-section container" id="apps" aria-labelledby="apps-title">
-          <div className="section-intro" data-reveal><span className="section-index">03 / THINGS I'VE MADE</span><div><h2 id="apps-title">A little practical.<br /><span>A little playful.</span></h2><p>My projects move between tools that solve specific problems and ideas I wanted to explore. Each one taught me something different.</p></div></div>
+          <div className="section-intro" data-reveal><span className="section-index">{t("03 / THINGS I'VE MADE")}</span><div><h2 id="apps-title">{t("A little practical.")}<br /><span>{t("A little playful.")}</span></h2><p>{t("My projects move between tools that solve specific problems and ideas I wanted to explore. Each one taught me something different.")}</p></div></div>
           <ol className="project-list">{projects.map(project => <ProjectRow key={project.name} project={project} />)}</ol>
-          <div className="section-endnote"><span>MORE IN THE WORKS</span><a href={github} target="_blank" rel="noopener noreferrer">Browse all repositories <ArrowIcon /></a></div>
+          <div className="section-endnote"><span>{t("MORE IN THE WORKS")}</span><a href={github} target="_blank" rel="noopener noreferrer">{t("Browse all repositories")} <ArrowIcon /></a></div>
         </section>
 
         <section className="contact-section" id="contact" aria-labelledby="contact-title">
           <div className="container contact-inner">
-            <div className="contact-top">04 / CONTACT</div>
+            <div className="contact-top">{t("04 / CONTACT")}</div>
             <div className="contact-content">
               <div className="contact-copy">
-                <h2 id="contact-title">Questions or ideas?<br /><em>My inbox is open.</em></h2>
-                <p>For projects, opportunities, or just a hello, feel free to reach out.</p>
+                <h2 id="contact-title">{t("Questions or ideas?")}<br /><em>{t("My inbox is open.")}</em></h2>
+                <p>{t("For projects, opportunities, or just a hello, feel free to reach out.")}</p>
               </div>
               <div className="contact-actions">
                 <a href={`mailto:${email}`} className="contact-button contact-email">
                   <span className="contact-button-icon"><SectionIcon name="contact" /></span>
-                  <span className="contact-button-text"><strong>Send an email</strong><small>{email}</small></span>
+                  <span className="contact-button-text"><strong>{t("Send an email")}</strong><small>{email}</small></span>
                   <ArrowIcon />
                 </a>
                 <a className="contact-button contact-social linkedin" href={linkedin} target="_blank" rel="noopener noreferrer">
                   <span className="contact-button-icon"><SocialIcon name="linkedin" /></span>
-                  <span className="contact-button-text"><strong>LinkedIn</strong><small>Connect professionally</small></span>
+                  <span className="contact-button-text"><strong>LinkedIn</strong><small>{t("Connect professionally")}</small></span>
                   <ArrowIcon />
                 </a>
                 <a className="contact-button contact-social github" href={github} target="_blank" rel="noopener noreferrer">
                   <span className="contact-button-icon"><SocialIcon name="github" /></span>
-                  <span className="contact-button-text"><strong>GitHub</strong><small>Explore my projects</small></span>
+                  <span className="contact-button-text"><strong>GitHub</strong><small>{t("Explore my projects")}</small></span>
                   <ArrowIcon />
                 </a>
               </div>
@@ -342,7 +348,7 @@ function App() {
         </section>
       </main>
 
-      <footer className="site-footer"><div className="container footer-inner"><span>© {new Date().getFullYear()} NATAN SALVADOR</span><a href="#top">BACK TO TOP ↑</a></div></footer>
+      <footer className="site-footer"><div className="container footer-inner"><span>© {new Date().getFullYear()} NATAN SALVADOR</span><a href="#top">{t("BACK TO TOP ↑")}</a></div></footer>
     </div>
   )
 }

@@ -11,6 +11,14 @@ npm run dev
 
 Build the production site with `npm run build`. The static output is in `dist/`.
 
+## Languages
+
+The styled language menu in the bottom navbar offers Français, English, and Español, with a highlighted current choice. It supports arrow keys, Home/End, typing a language’s first letter, Escape, and outside-click dismissal. On the first visit, the first supported language in the browser’s preferences is selected (including regional variants such as `fr-CA` and `es-MX`); unsupported preferences fall back to English. An explicit selection is saved in local storage and takes priority on future visits. If storage is blocked, switching still works for the current visit.
+
+English copy lives in the components and acts as the lookup key in `src/translations.ts`, which contains the French and Spanish translations. Update the corresponding dictionary key whenever English copy changes. Brand and technology names remain unchanged. Page language, title, descriptions, and accessibility labels update with the selection. Static HTML metadata remains English for crawlers that do not run JavaScript.
+
+Run language behavior tests with `npm test` (Node 22.18+).
+
 ## Update content
 
 - Edit app descriptions, technologies, links, and icons in `src/App.tsx` (`projects`). Each row's accent colour comes from its `.project-<name>` theme in `src/styles.css`.

@@ -1,3 +1,4 @@
+import { useLanguage } from './LanguageProvider'
 type Technology = {
   name: string
   icon: string
@@ -44,18 +45,19 @@ function TechnologyIcon({ technology }: { technology: Technology }) {
 
 // Use product marks where available and the Windows mark for Windows Server services.
 export default function TechnologyStack({ role }: { role: 'cyberesist' | 'scc' }) {
+  const { t } = useLanguage()
   const groups = role === 'cyberesist' ? cyberesist : scc
 
   return (
-    <div className="technology-stack" aria-label="Technologies used">
+    <div className="technology-stack" aria-label={t("Technologies used")}>
       {(['main', 'secondary'] as const).map(group => (
         <div className="technology-group" key={group}>
-          <span className="technology-group-label">{group === 'main' ? 'MAIN TECHNOLOGIES' : 'ALSO USED'}</span>
+          <span className="technology-group-label">{t(group === 'main' ? 'MAIN TECHNOLOGIES' : 'ALSO USED')}</span>
           <ul>
             {groups[group].map(technology => (
               <li key={technology.name}>
                 <span className={`technology-icon${technology.name === 'Huey' ? ' is-huey' : ''}`}><TechnologyIcon technology={technology} /></span>
-                <span>{technology.name}</span>
+                <span>{t(technology.name)}</span>
               </li>
             ))}
           </ul>
