@@ -24,3 +24,11 @@ test('the dictionary holds no stale entries', () => {
   const used = new Set([...literalKeys, ...contentKeys])
   assert.deepEqual(Object.keys(translations).filter(key => !used.has(key)), [])
 })
+
+test('emphasis markers survive translation', () => {
+  const count = text => (text.match(/\*\*/g) ?? []).length
+  for (const [key, value] of Object.entries(translations)) {
+    assert.equal(count(value.fr), count(key), `fr: ${key}`)
+    assert.equal(count(value.es), count(key), `es: ${key}`)
+  }
+})

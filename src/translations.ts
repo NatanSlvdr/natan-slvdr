@@ -12,17 +12,33 @@ export const translations: Record<string, { fr: string; es: string }> = {
     "fr": "copier",
     "es": "copiar"
   },
-  "Software engineer. I build the tools I need, then make them better.": {
-    "fr": "Ingénieur logiciel. Je crée les outils dont j’ai besoin, puis je les améliore.",
-    "es": "Ingeniero de software. Creo las herramientas que necesito y luego las mejoro."
+  "software engineer": {
+    "fr": "ingénieur logiciel",
+    "es": "ingeniero de software"
+  },
+  "I build the tools I need, then make them **better**.": {
+    "fr": "Je crée les outils dont j’ai besoin, puis je les **améliore**.",
+    "es": "Creo las herramientas que necesito y luego las **mejoro**."
+  },
+  "coding since age 12": {
+    "fr": "code depuis mes 12 ans",
+    "es": "programa desde los 12 años"
+  },
+  "building something new": {
+    "fr": "construit quelque chose de nouveau",
+    "es": "construyendo algo nuevo"
+  },
+  "Projects": {
+    "fr": "Projets",
+    "es": "Proyectos"
+  },
+  "click a project to open its README": {
+    "fr": "cliquez sur un projet pour ouvrir son README",
+    "es": "haz clic en un proyecto para abrir su README"
   },
   "Language": {
     "fr": "Langue",
     "es": "Idioma"
-  },
-  "Technologies": {
-    "fr": "Technologies",
-    "es": "Tecnologías"
   },
   "Natan Salvador — Software engineer": {
     "fr": "Natan Salvador — Ingénieur logiciel",
@@ -35,6 +51,10 @@ export const translations: Record<string, { fr: string; es: string }> = {
   "Backends, tools, and small apps. Explore the projects of Natan Salvador.": {
     "fr": "Backends, outils et petites applications. Découvrez les projets de Natan Salvador.",
     "es": "Backends, herramientas y pequeñas aplicaciones. Descubre los proyectos de Natan Salvador."
+  },
+  "Technologies": {
+    "fr": "Technologies",
+    "es": "Tecnologías"
   },
   "Interactive game": {
     "fr": "Jeu interactif",

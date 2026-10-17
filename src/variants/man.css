@@ -1,0 +1,91 @@
+/* Variant: man page — a Unix manual set on paper. */
+.man {
+  --paper: #f3efe6;
+  --ink: #1c1a16;
+  --soft: #6b6559;
+  --faint: #d9d2c3;
+  --red: #b4361f;
+  height: 100dvh;
+  padding: 28px;
+  overflow: hidden;
+  background: radial-gradient(#00000009 1px, transparent 1.2px) 0 0 / 18px 18px, #e7e1d4;
+  color: var(--ink);
+  font-size: 14.5px;
+  line-height: 1.6;
+}
+.man ::selection { background: var(--ink); color: var(--paper); }
+.man a { color: inherit; }
+.man button { all: unset; cursor: pointer; display: block; }
+.man :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+.man b { font-weight: 600; }
+.man u { text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+.man-page {
+  height: 100%;
+  max-width: 1180px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding: 26px 46px;
+  background: var(--paper);
+  box-shadow: 0 1px 0 #fff inset, 0 30px 70px -40px #3b301c80, 0 0 0 1px #0000000f;
+  animation: man-in .7s cubic-bezier(.2, .7, .2, 1) both;
+}
+.man-rule { display: flex; justify-content: space-between; align-items: center; gap: 20px; color: var(--ink); font-size: 13.5px; }
+.man-rule span:nth-child(2) { color: var(--soft); }
+.man-langs { display: flex; gap: 4px; }
+.man-langs button { padding: 0 6px; color: var(--soft); }
+.man-langs button:hover { color: var(--ink); }
+.man-langs button[aria-pressed='true'] { color: var(--ink); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+
+.man-body { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 56px; margin: 26px 0; }
+.man-col { display: flex; flex-direction: column; gap: 22px; min-height: 0; }
+.man h2 { margin: 0; font-size: 14.5px; font-weight: 700; letter-spacing: .02em; }
+.man-indent { margin: 4px 0 0; padding-left: 60px; }
+.man h1 { font-size: clamp(22px, 2vw, 28px); white-space: nowrap; font-weight: 400; line-height: 1.2; letter-spacing: -.02em; }
+.man h1 b { font-weight: 700; }
+
+.man-projects ul { list-style: none; margin-top: 6px; }
+.man-projects li button { position: relative; padding: 7px 10px; margin-left: -10px; border-radius: 4px; transition: background-color .2s; }
+.man-projects li button::before { content: ''; position: absolute; left: -3ch; top: 9px; width: 9px; height: 9px; border-radius: 50%; background: var(--accent); transform: scale(0); transition: transform .25s cubic-bezier(.2, .7, .2, 1); }
+.man-projects li button:hover { background: #0000000a; }
+.man-projects li button[aria-pressed='true']::before, .man-projects li button:hover::before { transform: scale(1); }
+.man-opt { display: block; }
+.man-opt b { text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px; transition: text-decoration-color .2s; }
+.man-projects li button[aria-pressed='true'] .man-opt b { text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+.man-desc { display: block; padding-left: 4ch; color: var(--soft); font-size: 13.5px; line-height: 1.5; }
+.man-see a { text-decoration: none; }
+.man-see a:hover b { color: var(--red); text-decoration: underline; text-underline-offset: 3px; }
+
+.man-detail { min-height: 0; overflow: auto; padding-left: 40px; border-left: 1px solid var(--faint); scrollbar-width: none; animation: man-fade .4s ease both; }
+.man-detail h2:not(:first-child) { margin-top: 20px; }
+.man-head { display: flex; align-items: center; gap: 16px; margin-top: 10px; }
+.man-head img { width: 52px; height: 52px; border-radius: 12px; box-shadow: 0 0 0 1px #0000001a, 0 10px 24px -12px #0006; }
+.man-head h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+.man-head p { margin: 0; color: var(--soft); font-size: 13.5px; }
+.man-detail .man-indent p { margin: 12px 0 0; }
+.man-detail .man-lead { margin-top: 18px; font-size: 16px; }
+.man-detail .man-indent p:not(.man-lead) { color: #45403a; }
+.man-links { display: flex; flex-wrap: wrap; gap: 10px; }
+.man-links a { padding: 5px 14px; border: 1px solid var(--ink); border-radius: 999px; text-decoration: none; transition: background-color .2s, color .2s; }
+.man-links a:hover { background: var(--ink); color: var(--paper); }
+
+.man-head img[src*='starshield'] { padding: 8px; background: #fff; object-fit: contain; }
+
+@keyframes man-in { from { opacity: 0; transform: translateY(14px); } }
+@keyframes man-fade { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .man *, .man { animation: none !important; } }
+
+@media (max-width: 760px) {
+  .man { padding: 0; font-size: 13px; }
+  .man-page { padding: 16px 18px; }
+  .man-rule span:nth-child(2) { display: none; }
+  .man-body { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); gap: 16px; margin: 14px 0; }
+  .man-col { gap: 12px; }
+  .man-indent { padding-left: 24px; }
+  .man-col section:nth-child(2), .man-desc, .man-detail .man-indent p:not(.man-lead), .man-detail h2:nth-of-type(2), .man-detail h2:nth-of-type(2) + p { display: none; }
+  .man h1 { font-size: 22px; }
+  .man-projects li button { padding: 3px 10px; }
+  .man-detail { padding: 14px 0 0; border-left: 0; border-top: 1px solid var(--faint); }
+  .man-detail h2:not(:first-child) { margin-top: 12px; }
+}

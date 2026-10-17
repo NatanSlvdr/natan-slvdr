@@ -1,8 +1,23 @@
 import { useEffect, useRef, useState, type RefObject } from 'react'
-import Projects, { Pane } from './Projects'
+import Block from './Block'
+import LedName from './LedName'
+import Projects from './Projects'
 import { useLanguage } from './LanguageProvider'
 import { languages } from './language'
 import { email, github, linkedin, projects } from './content'
+
+const palette = ['#101216', '#e83828', '#56d364', '#e3b341', '#3888f8', '#db61a2', '#39c5cf', '#d8d8d9']
+
+function formatLogin(date: Date) {
+  const part = (options: Intl.DateTimeFormatOptions) => date.toLocaleString('en-US', options)
+  return `${part({ weekday: 'short' })} ${part({ month: 'short' })} ${date.getDate()} ${date.toTimeString().slice(0, 8)}`
+}
+const lastLogin = formatLogin(new Date())
+
+// Renders **emphasis** from translated copy; the markers themselves are not shown.
+function Emphasis({ text }: { text: string }) {
+  return <>{text.split(/\*\*([^*]+)\*\*/).map((part, index) => index % 2 ? <strong key={index}>{part}</strong> : part)}</>
+}
 
 function useClock() {
   const [now, setNow] = useState(() => new Date())
@@ -54,16 +69,26 @@ function CopyButton({ text }: { text: string }) {
 
 const contacts = [
   { key: 'mail', label: email, href: `mailto:${email}` },
-  { key: 'github', label: 'github.com/NatanSlvdr', href: github },
-  { key: 'linkedin', label: 'in/natan-salvador', href: linkedin },
+  { key: 'github', label: 'NatanSlvdr', href: github },
+  { key: 'linkedin', label: 'natan-salvador', href: linkedin },
 ]
+
+function ContactLink({ contact, short = false }: { contact: (typeof contacts)[number]; short?: boolean }) {
+  const external = contact.href.startsWith('http')
+  return (
+    <a href={contact.href} aria-label={`${contact.key}: ${contact.label}`} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+      {short ? contact.key : contact.label}<span aria-hidden="true"> {external ? '↗' : '→'}</span>
+    </a>
+  )
+}
 
 function App() {
   const { language, setLanguage, t } = useLanguage()
+  const [stage, setStage] = useState(0)
   const [selected, setSelected] = useState(projects[0])
-  const workspaceRef = useRef<HTMLElement>(null)
+  const termRef = useRef<HTMLElement>(null)
   const cellRef = useRef<HTMLSpanElement>(null)
-  const size = useTerminalSize(workspaceRef, cellRef)
+  const size = useTerminalSize(termRef, cellRef)
   const clock = useClock()
 
   return (
@@ -71,39 +96,56 @@ function App() {
       <div className="window">
         <header className="titlebar">
           <div className="lights" aria-hidden="true"><i /><i /><i /></div>
-          <span className="titlebar-title" aria-hidden="true">natan@slvdr: ~/projects</span>
+          <span className="titlebar-title" aria-hidden="true">natan@slvdr — zsh</span>
           <span className="titlebar-size" aria-hidden="true">{size}</span>
         </header>
 
-        <main className="workspace" ref={workspaceRef}>
+        <main className="term" ref={termRef}>
           <span className="cell-probe" ref={cellRef} aria-hidden="true">0</span>
-          <Pane index={0} title="whoami" className="pane-intro">
-            <div className="intro">
-              <h1>Natan Salvador<span className="caret" aria-hidden="true" /></h1>
-              <p>{t('Software engineer. I build the tools I need, then make them better.')}</p>
-            </div>
-            <ul className="contacts">
-              {contacts.map(contact => {
-                const external = contact.href.startsWith('http')
-                return (
-                  <li key={contact.key}>
-                    <span className="contact-key" aria-hidden="true">{contact.key}</span>
-                    <a href={contact.href} aria-label={`${contact.key}: ${contact.label}`} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
-                      <span className="contact-label">{contact.label}</span>
-                      <span className="contact-short" aria-hidden="true">{contact.key}</span>
-                      <span aria-hidden="true"> {external ? '↗' : '→'}</span>
-                    </a>
-                    {contact.key === 'mail' && <CopyButton text={email} />}
-                  </li>
-                )
-              })}
-            </ul>
-          </Pane>
-          <Projects selected={selected} onSelect={setSelected} />
+          <p className="login" aria-hidden="true">Last login: {lastLogin} on ttys001</p>
+
+          <Block id="fetch" command="fetch" took="12ms" active={stage >= 0} onDone={() => setStage(stage => Math.max(stage, 1))}>
+            {done => (
+              <div className="fetch">
+                <div className="fetch-hero">
+                  <LedName start={done} />
+                  <h1 className="fetch-name">Natan Salvador <span>/ {t('software engineer')}</span></h1>
+                  <p className="fetch-tagline"><Emphasis text={t('I build the tools I need, then make them **better**.')} /></p>
+                  <ul className="fetch-links">{contacts.map(contact => <li key={contact.key}><ContactLink contact={contact} short /></li>)}</ul>
+                </div>
+                <div className="fetch-card">
+                  <p className="fetch-user"><b>natan</b>@<b>slvdr</b></p>
+                  <p className="fetch-rule" aria-hidden="true" />
+                  <dl>
+                    <div><dt>stack</dt><dd>python · typescript · rust · swift</dd></div>
+                    <div><dt>uptime</dt><dd>{t('coding since age 12')}</dd></div>
+                    <div><dt>status</dt><dd className="status"><i aria-hidden="true" />{t('building something new')}</dd></div>
+                    {contacts.map(contact => (
+                      <div key={contact.key}>
+                        <dt>{contact.key}</dt>
+                        <dd className="fetch-contact"><ContactLink contact={contact} />{contact.key === 'mail' && <CopyButton text={email} />}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <div className="swatches" aria-hidden="true">{palette.map(color => <i key={color} style={{ background: color }} />)}</div>
+                </div>
+              </div>
+            )}
+          </Block>
+
+          <Block id="projects" title={t('Projects')} command="ls ~/projects" took="4ms" active={stage >= 1} className="block-projects">
+            {() => (
+              <>
+                <p className="comment">total {projects.length} <span># {t('click a project to open its README')}</span></p>
+                <Projects selected={selected} onSelect={setSelected} />
+              </>
+            )}
+          </Block>
         </main>
 
         <footer className="statusbar">
-          <span className="status-path" aria-hidden="true">~/projects/<b>{selected.slug}</b></span>
+          <span className="status-session"><i aria-hidden="true" />slvdr</span>
+          <span className="status-path" aria-hidden="true">~/projects/{selected.slug}</span>
           <span className="status-spacer" />
           <div className="status-langs" role="group" aria-label={t('Language')}>
             {languages.map(option => (
