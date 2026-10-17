@@ -37,12 +37,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     document.documentElement.lang = language
-    const title = translate('Natan Salvador — Backend engineer & product builder', language)
+    const title = translate('Natan Salvador — Software engineer', language)
     document.title = title
     const metadata = {
-      'meta[name="description"]': translate('Natan Salvador is a backend engineer building reliable systems and thoughtful products. Explore apps, selected work, and experience.', language),
+      'meta[name="description"]': translate('Natan Salvador is a software engineer who builds backends, tools, and small apps. Explore the projects.', language),
       'meta[property="og:title"]': title,
-      'meta[property="og:description"]': translate('Reliable systems. Thoughtful products. Explore the apps and work of Natan Salvador.', language),
+      'meta[property="og:description"]': translate('Backends, tools, and small apps. Explore the projects of Natan Salvador.', language),
     }
     for (const [selector, content] of Object.entries(metadata)) {
       document.querySelector(selector)?.setAttribute('content', content)
