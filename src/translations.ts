@@ -1,45 +1,5 @@
 // English copy is the lookup key; each entry must include both translations.
 export const translations: Record<string, { fr: string; es: string }> = {
-  "copied": {
-    "fr": "copié",
-    "es": "copiado"
-  },
-  "copy failed": {
-    "fr": "échec de la copie",
-    "es": "error al copiar"
-  },
-  "copy": {
-    "fr": "copier",
-    "es": "copiar"
-  },
-  "software engineer": {
-    "fr": "ingénieur logiciel",
-    "es": "ingeniero de software"
-  },
-  "I build the tools I need, then make them **better**.": {
-    "fr": "Je crée les outils dont j’ai besoin, puis je les **améliore**.",
-    "es": "Creo las herramientas que necesito y luego las **mejoro**."
-  },
-  "coding since age 12": {
-    "fr": "code depuis mes 12 ans",
-    "es": "programa desde los 12 años"
-  },
-  "building something new": {
-    "fr": "construit quelque chose de nouveau",
-    "es": "construyendo algo nuevo"
-  },
-  "Projects": {
-    "fr": "Projets",
-    "es": "Proyectos"
-  },
-  "click a project to open its README": {
-    "fr": "cliquez sur un projet pour ouvrir son README",
-    "es": "haz clic en un proyecto para abrir su README"
-  },
-  "Language": {
-    "fr": "Langue",
-    "es": "Idioma"
-  },
   "Natan Salvador — Software engineer": {
     "fr": "Natan Salvador — Ingénieur logiciel",
     "es": "Natan Salvador — Ingeniero de software"
@@ -52,9 +12,97 @@ export const translations: Record<string, { fr: string; es: string }> = {
     "fr": "Backends, outils et petites applications. Découvrez les projets de Natan Salvador.",
     "es": "Backends, herramientas y pequeñas aplicaciones. Descubre los proyectos de Natan Salvador."
   },
+  "Skip to projects": {
+    "fr": "Aller aux projets",
+    "es": "Ir a los proyectos"
+  },
+  "software engineer": {
+    "fr": "ingénieur logiciel",
+    "es": "ingeniero de software"
+  },
+  "I build the tools I need, then make them **better**.": {
+    "fr": "Je crée les outils dont j’ai besoin, puis je les **améliore**.",
+    "es": "Creo las herramientas que necesito y luego las **mejoro**."
+  },
+  "backends · tools · small apps": {
+    "fr": "backends · outils · petites apps",
+    "es": "backends · herramientas · pequeñas apps"
+  },
+  "python · typescript · rust · swift": {
+    "fr": "python · typescript · rust · swift",
+    "es": "python · typescript · rust · swift"
+  },
+  "coding since age 12": {
+    "fr": "code depuis mes 12 ans",
+    "es": "programa desde los 12 años"
+  },
+  "building something new": {
+    "fr": "construit quelque chose de nouveau",
+    "es": "construyendo algo nuevo"
+  },
+  "About": {
+    "fr": "À propos",
+    "es": "Sobre mí"
+  },
+  "about": {
+    "fr": "à propos",
+    "es": "sobre mí"
+  },
+  "I started coding at 12, making small tools for problems I ran into. Today I'm a software engineer, mostly on the backend.": {
+    "fr": "J’ai commencé à coder à 12 ans, en créant de petits outils pour les problèmes que je rencontrais. Aujourd’hui, je suis ingénieur logiciel, surtout côté backend.",
+    "es": "Empecé a programar a los 12 años, creando pequeñas herramientas para los problemas que me encontraba. Hoy soy ingeniero de software, sobre todo en backend."
+  },
+  "In my own time I keep building things. Once something works, I start wondering how to make it **simpler**, **faster**, or **nicer to use**.": {
+    "fr": "Sur mon temps libre, je continue de créer. Dès que quelque chose fonctionne, je me demande comment le rendre **plus simple**, **plus rapide** ou **plus agréable à utiliser**.",
+    "es": "En mi tiempo libre sigo creando cosas. En cuanto algo funciona, empiezo a pensar cómo hacerlo **más simple**, **más rápido** o **más agradable de usar**."
+  },
+  "Projects": {
+    "fr": "Projets",
+    "es": "Proyectos"
+  },
+  "click a project to open its README": {
+    "fr": "cliquez sur un projet pour ouvrir son README",
+    "es": "haz clic en un proyecto para abrir su README"
+  },
+  "Contact": {
+    "fr": "Contact",
+    "es": "Contacto"
+  },
+  "Questions, ideas, or just a hello? My inbox is open.": {
+    "fr": "Des questions, des idées ou juste un bonjour ? Ma boîte mail est ouverte.",
+    "es": "¿Preguntas, ideas o solo un hola? Mi bandeja de entrada está abierta."
+  },
+  "copy": {
+    "fr": "copier",
+    "es": "copiar"
+  },
+  "copied": {
+    "fr": "copié",
+    "es": "copiado"
+  },
+  "copy failed": {
+    "fr": "échec de la copie",
+    "es": "error al copiar"
+  },
+  "thanks for stopping by": {
+    "fr": "merci de votre visite",
+    "es": "gracias por pasar"
+  },
   "Technologies": {
     "fr": "Technologies",
     "es": "Tecnologías"
+  },
+  "Section navigation": {
+    "fr": "Navigation par section",
+    "es": "Navegación por secciones"
+  },
+  "Language": {
+    "fr": "Langue",
+    "es": "Idioma"
+  },
+  "Browse all repositories": {
+    "fr": "Voir tous les dépôts",
+    "es": "Ver todos los repositorios"
   },
   "Interactive game": {
     "fr": "Jeu interactif",

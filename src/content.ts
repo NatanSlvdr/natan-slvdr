@@ -76,3 +76,11 @@ export const projects: Project[] = [
     links: [{ label: 'Explore repository', href: `${github}/local-echo` }],
   },
 ]
+
+// Kept short on purpose: the fetch card is the whole "about me" summary.
+export const fetchInfo = [
+  { key: 'role', value: 'software engineer' },
+  { key: 'focus', value: 'backends · tools · small apps' },
+  { key: 'stack', value: 'python · typescript · rust · swift' },
+  { key: 'uptime', value: 'coding since age 12' },
+]
