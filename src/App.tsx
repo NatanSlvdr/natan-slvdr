@@ -10,8 +10,9 @@ const links: { platform: Platform; name: string; label: string; href: string }[]
 ]
 
 function PlatformIcon({ platform }: { platform: Platform }) {
+  // A solid envelope, cropped to its edges, so it matches the weight and size of the brand logos.
   if (platform === 'email') {
-    return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
+    return <svg viewBox="1 1 22 22" fill="currentColor" aria-hidden="true"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" /></svg>
   }
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
