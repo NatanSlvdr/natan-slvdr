@@ -13,7 +13,7 @@ Build the production site with `npm run build`. The static output is in `dist/`.
 
 ## How it works
 
-One screen, no text: a rounded 3D letter N drawn in ASCII fills the page, with GitHub, LinkedIn, and email icons below it. The N fades in, then starts tumbling and leans towards the pointer. Visitors who prefer reduced motion see a still letter. The name is still in the page title and in a heading kept for screen readers.
+One screen, no text: a rounded 3D letter N drawn in ASCII fills the page, with GitHub, LinkedIn, and email icons below it. The N starts tumbling as it fades in and leans towards the pointer. Visitors who prefer reduced motion see a still letter. The name is still in the page title and in a heading kept for screen readers.
 
 ## Update content
 

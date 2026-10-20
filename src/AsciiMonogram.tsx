@@ -156,7 +156,6 @@ export default function AsciiMonogram({ className }: { className?: string }) {
     let pitch = -0.25
     let tilt = { x: 0, y: 0 }
     let target = { x: 0, y: 0 }
-    let spinning = false
     let speed = 0
     let previous = 0
     let frame = 0
@@ -181,11 +180,6 @@ export default function AsciiMonogram({ className }: { className?: string }) {
       render()
     }
 
-    // The letter holds still, facing the viewer, until it has faded in.
-    const startSpinning = (event: AnimationEvent) => {
-      if (event.animationName === 'appear') spinning = true
-    }
-
     // The letter leans gently towards the pointer.
     const follow = (event: PointerEvent) => {
       target = { x: (event.clientY / window.innerHeight - 0.5) * 0.9, y: (event.clientX / window.innerWidth - 0.5) * 0.9 }
@@ -197,8 +191,8 @@ export default function AsciiMonogram({ className }: { className?: string }) {
       if (now - previous < 33) return
       const elapsed = previous ? Math.min(now - previous, 100) : 33
       previous = now
-      // The spin eases in over about a second rather than starting at full speed.
-      speed += ((spinning ? 1 : 0) - speed) * 0.04
+      // The spin eases in over about a second as the letter fades in, so it still faces the viewer once visible.
+      speed += (1 - speed) * 0.04
       yaw += elapsed * 0.0007 * speed
       pitch += elapsed * 0.0003 * speed
       tilt = { x: tilt.x + (target.x - tilt.x) * 0.06, y: tilt.y + (target.y - tilt.y) * 0.06 }
@@ -210,13 +204,11 @@ export default function AsciiMonogram({ className }: { className?: string }) {
     // Little else on the page uses the font, so ask for it rather than waiting on page text.
     document.fonts?.load("12px 'IBM Plex Mono'").then(resize)
     if (!reducedMotion) {
-      canvas.addEventListener('animationend', startSpinning)
       window.addEventListener('pointermove', follow, { passive: true })
       frame = requestAnimationFrame(tick)
     }
     return () => {
       observer.disconnect()
-      canvas.removeEventListener('animationend', startSpinning)
       window.removeEventListener('pointermove', follow)
       cancelAnimationFrame(frame)
     }
