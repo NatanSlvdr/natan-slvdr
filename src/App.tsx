@@ -1,8 +1,5 @@
-import { useState } from 'react'
 import { useLanguage } from './LanguageProvider'
-import { languages } from './language'
 import AsciiMonogram from './AsciiMonogram'
-import ScrambleName from './ScrambleName'
 
 type Platform = 'github' | 'linkedin' | 'email'
 
@@ -26,50 +23,30 @@ function PlatformIcon({ platform }: { platform: Platform }) {
 }
 
 export default function App() {
-  const { t, language, setLanguage } = useLanguage()
-  const [ready, setReady] = useState(false)
+  const { t } = useLanguage()
 
   return (
-    <div className={`page ${ready ? 'is-ready' : ''}`}>
-      <header className="top">
-        <span className="mark">slvdr</span>
-        <nav className="languages" aria-label={t('Language')}>
-          {languages.map(option => (
-            <button
-              key={option.code}
-              type="button"
-              lang={option.code}
-              aria-label={option.name}
-              aria-pressed={language === option.code}
-              onClick={() => setLanguage(option.code)}
-            >{option.code}</button>
-          ))}
-        </nav>
-      </header>
-
-      <main className="hero">
-        <div className="intro">
-          <ScrambleName onDone={() => setReady(true)} />
-          <p className="tagline">{t('I build what I need. Then I make it better.')}</p>
-          <ul className="links">
-            {links.map(link => {
-              const external = link.href.startsWith('http')
-              return (
-                <li key={link.platform}>
-                  <a className={`link-${link.platform}`} href={link.href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined} aria-label={`${link.name}: ${link.label}`}>
-                    <span className="link-icon"><PlatformIcon platform={link.platform} /></span>
-                    <span className="link-label">{link.label}</span>
-                    <span className="link-arrow" aria-hidden="true">→</span>
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
-        <AsciiMonogram className="art" />
-      </main>
-
-      <footer className="bottom">© {new Date().getFullYear()}</footer>
-    </div>
+    <main className="page">
+      <h1 className="visually-hidden">Natan Salvador</h1>
+      <AsciiMonogram className="art" />
+      <nav className="links" aria-label={t('Contact')}>
+        {links.map(link => {
+          const external = link.href.startsWith('http')
+          return (
+            <a
+              key={link.platform}
+              className={`link-${link.platform}`}
+              href={link.href}
+              target={external ? '_blank' : undefined}
+              rel={external ? 'noopener noreferrer' : undefined}
+              aria-label={`${t(link.name)}: ${link.label}`}
+              title={link.label}
+            >
+              <PlatformIcon platform={link.platform} />
+            </a>
+          )
+        })}
+      </nav>
+    </main>
   )
 }

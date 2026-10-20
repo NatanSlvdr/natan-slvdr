@@ -169,7 +169,7 @@ export default function AsciiMonogram({ className }: { className?: string }) {
       canvas.width = Math.round(width * ratio)
       canvas.height = Math.round(height * ratio)
       // Smaller canvases get smaller characters so the letter keeps its shape.
-      const fontSize = Math.max(7, Math.min(12, Math.round(Math.min(width, height) / 42)))
+      const fontSize = Math.max(7, Math.min(14, Math.round(Math.min(width, height) / 42)))
       context.setTransform(ratio, 0, 0, ratio, 0, 0)
       context.font = `${fontSize}px 'IBM Plex Mono', ui-monospace, monospace`
       context.textBaseline = 'top'
@@ -182,8 +182,8 @@ export default function AsciiMonogram({ className }: { className?: string }) {
     }
 
     // The letter holds still, facing the viewer, until it has faded in.
-    const startSpinning = (event: TransitionEvent) => {
-      if (event.propertyName === 'opacity') spinning = true
+    const startSpinning = (event: AnimationEvent) => {
+      if (event.animationName === 'appear') spinning = true
     }
 
     // The letter leans gently towards the pointer.
@@ -207,15 +207,16 @@ export default function AsciiMonogram({ className }: { className?: string }) {
 
     const observer = new ResizeObserver(resize)
     observer.observe(canvas)
-    document.fonts?.ready.then(resize)
+    // Little else on the page uses the font, so ask for it rather than waiting on page text.
+    document.fonts?.load("12px 'IBM Plex Mono'").then(resize)
     if (!reducedMotion) {
-      canvas.addEventListener('transitionend', startSpinning)
+      canvas.addEventListener('animationend', startSpinning)
       window.addEventListener('pointermove', follow, { passive: true })
       frame = requestAnimationFrame(tick)
     }
     return () => {
       observer.disconnect()
-      canvas.removeEventListener('transitionend', startSpinning)
+      canvas.removeEventListener('animationend', startSpinning)
       window.removeEventListener('pointermove', follow)
       cancelAnimationFrame(frame)
     }
