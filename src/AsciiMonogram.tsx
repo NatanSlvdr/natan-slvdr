@@ -156,6 +156,8 @@ export default function AsciiMonogram({ className }: { className?: string }) {
     let pitch = -0.25
     let tilt = { x: 0, y: 0 }
     let target = { x: 0, y: 0 }
+    let spinning = false
+    let speed = 0
     let previous = 0
     let frame = 0
 
@@ -179,6 +181,11 @@ export default function AsciiMonogram({ className }: { className?: string }) {
       render()
     }
 
+    // The letter holds still, facing the viewer, until it has faded in.
+    const startSpinning = (event: TransitionEvent) => {
+      if (event.propertyName === 'opacity') spinning = true
+    }
+
     // The letter leans gently towards the pointer.
     const follow = (event: PointerEvent) => {
       target = { x: (event.clientY / window.innerHeight - 0.5) * 0.9, y: (event.clientX / window.innerWidth - 0.5) * 0.9 }
@@ -190,8 +197,10 @@ export default function AsciiMonogram({ className }: { className?: string }) {
       if (now - previous < 33) return
       const elapsed = previous ? Math.min(now - previous, 100) : 33
       previous = now
-      yaw += elapsed * 0.0007
-      pitch += elapsed * 0.0003
+      // The spin eases in over about a second rather than starting at full speed.
+      speed += ((spinning ? 1 : 0) - speed) * 0.04
+      yaw += elapsed * 0.0007 * speed
+      pitch += elapsed * 0.0003 * speed
       tilt = { x: tilt.x + (target.x - tilt.x) * 0.06, y: tilt.y + (target.y - tilt.y) * 0.06 }
       render()
     }
@@ -200,11 +209,13 @@ export default function AsciiMonogram({ className }: { className?: string }) {
     observer.observe(canvas)
     document.fonts?.ready.then(resize)
     if (!reducedMotion) {
+      canvas.addEventListener('transitionend', startSpinning)
       window.addEventListener('pointermove', follow, { passive: true })
       frame = requestAnimationFrame(tick)
     }
     return () => {
       observer.disconnect()
+      canvas.removeEventListener('transitionend', startSpinning)
       window.removeEventListener('pointermove', follow)
       cancelAnimationFrame(frame)
     }
